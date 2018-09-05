@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Merry Chipmas 2015</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+		<link rel="stylesheet" href="style.css">
+		<script src="./js/three.min.js"></script>
+		<script src="./js/meyda.min.js"></script>
+		<Script src="./js/ThinPlayer.js"></script>
+	</head>
+	<body>
+		<section class="main">
+			<h1>Merry Chipmas 2015</h1>
+			<ul class="tracklist">
+
+			</ul><br>
+			<a class="pure-button" href="./assets/Merry-Chipmas-2015.zip">Download Merry Chipmas 2015</a>
+			<p>Check out the past releases:</p>
+			<ul>
+				<li><a href="http://brkbrkbrk.com/mc2014">Merry Chipmas 2014</a></li>
+				<li><a href="http://brkbrkbrk.com/mc2013">Merry Chipmas 2013</a></li>
+				<li><a href="http://brkbrkbrk.com/mc2012">Merry Chipmas 2012</a></li>
+				<li><a href="http://brkbrkbrk.com/mc2011">Merry Chipmas 2011</a></li>
+				<li><a href="http://brkbrkbrk.com/mc2010">Merry Chipmas 2010</a></li>
+			</ul>
+		</section>
+
+		<section class="art">
+			Site &amp; compo by <a href="https://wray.pro/" target="_blank">2xAA</a>. Art by <a href="https://twitter.com/__mirag3" target="_blank">mirage</a>
+		</section>
+
+		<script type="x-shader/x-vertex" id="vs">
+			// snow from here
+			// https://github.com/sole/three.js-tutorials/blob/master/snow_shader/
+			uniform float radiusX;
+			uniform float radiusZ;
+			uniform float size;
+			uniform float scale;
+			uniform float height;
+			uniform float elapsedTime;
+			uniform float speedH;
+			uniform float speedV;
+			void main() {
+				vec3 pos = position;
+				pos.x += cos((elapsedTime + position.z) * 0.25 * speedH) * radiusX;
+				pos.y = mod(pos.y - elapsedTime * speedV, height);
+				pos.z += sin((elapsedTime + position.x) * 0.25 * speedH) * radiusZ;
+				vec4 mvPosition = modelViewMatrix * vec4( pos, 1.0 );
+				gl_PointSize = size * ( scale / length( mvPosition.xyz ) );
+				gl_Position = projectionMatrix * mvPosition;
+			}
+		</script>
+
+		<script type="x-shader/x-fragment" id="fs">
+			uniform vec3 color;
+			uniform float opacity;
+			uniform sampler2D texture;
+			void main() {
+				vec4 texColor = texture2D( texture, gl_PointCoord );
+				gl_FragColor = texColor * vec4( color, opacity );
+			}
+		</script>
+
+		<script src="./js/app.min.js"></script>
+	</body>
+</html>
