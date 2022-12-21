@@ -179,10 +179,7 @@
     requestAnimationFrame(B);
     b = { rms: 0 };
     if (tP.isPlaying()) {
-      if (!contextCreated) {
-        createContext();
-        contextCreated = true;
-      } else {
+      if (contextCreated) {
         b = C.get(["rms"]);
 
         if (!b.rms) {
@@ -224,6 +221,11 @@
       var d = document.createElement("li");
       d.innerHTML = "<b>" + a.title + "</b> by <b>" + a.author + "</b>";
       d.addEventListener("click", function () {
+        if (!contextCreated) {
+          createContext();
+          contextCreated = true;
+        }
+
         this.classList.contains("active") ? f.playPause() : f.skipTo(b);
       });
       e.appendChild(d);
